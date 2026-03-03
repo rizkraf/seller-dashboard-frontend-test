@@ -21,7 +21,7 @@
         </nav>
       </div>
     </aside>
-    <main class="flex-1 flex items-center justify-center">
+    <main class="flex-1">
       <router-view></router-view>
     </main>
   </div>
