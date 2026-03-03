@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import type { Product } from '@/types'
+import { ref } from 'vue'
+import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
 
-defineProps<{
+const props = defineProps<{
   product: Product
 }>()
+
+const emit = defineEmits<{
+  delete: [id: number]
+}>()
+
+const open = ref(false)
+
+const confirmDelete = () => {
+  emit('delete', props.product.id)
+  open.value = false
+}
 </script>
 
 <template>
@@ -23,11 +36,21 @@ defineProps<{
           >
             Edit
           </button>
-          <button
-            class="bg-red-500 text-white text-sm px-3 py-1.5 rounded-lg hover:bg-red-600 transition"
+
+          <DeleteConfirmDialog
+            v-model:open="open"
+            title="Delete Product"
+            :description="`Are you sure you want to delete &quot;${product.title}&quot;? This action cannot be undone.`"
+            @confirm="confirmDelete"
           >
-            Delete
-          </button>
+            <template #trigger>
+              <button
+                class="bg-red-500 text-white text-sm px-3 py-1.5 rounded-lg hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
+            </template>
+          </DeleteConfirmDialog>
         </div>
       </div>
     </div>

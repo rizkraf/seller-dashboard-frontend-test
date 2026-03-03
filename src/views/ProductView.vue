@@ -46,8 +46,15 @@ const totalUrl = computed(() => {
   return `${url}/products?${queryString}`
 })
 
-const { isFetching, error, data } = useFetch<Product[]>(fetchUrl, { refetch: true }).json()
-const { data: allProducts } = useFetch<Product[]>(totalUrl, { refetch: true }).json()
+const {
+  isFetching,
+  error,
+  data,
+  execute: executeList,
+} = useFetch<Product[]>(fetchUrl, { refetch: true }).json()
+const { data: allProducts, execute: executeAll } = useFetch<Product[]>(totalUrl, {
+  refetch: true,
+}).json()
 const total = computed(() => allProducts.value?.length ?? 0)
 
 const onApplyFilter = (values: FilterValues) => {
@@ -65,6 +72,21 @@ const onResetFilter = () => {
   appliedFilter.categoryId = null
   currentPage.value = 1
 }
+
+const onDeleteProduct = async (id: number) => {
+  try {
+    const response = await fetch(`${url}/products/${id}`, {
+      method: 'DELETE',
+    })
+    if (!response.ok) {
+      throw new Error('Failed to delete product.')
+    }
+    executeList()
+    executeAll()
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : 'An unexpected error occurred.')
+  }
+}
 </script>
 
 <template>
@@ -77,7 +99,12 @@ const onResetFilter = () => {
       v-else
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
     >
-      <ProductCard v-for="product in data" :key="product.id" :product="product" />
+      <ProductCard
+        v-for="product in data"
+        :key="product.id"
+        :product="product"
+        @delete="onDeleteProduct"
+      />
     </div>
     <ProductPagination v-model:current-page="currentPage" :total="total" :items-per-page="limit" />
   </div>
