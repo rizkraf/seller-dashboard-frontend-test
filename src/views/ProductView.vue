@@ -91,7 +91,15 @@ const onDeleteProduct = async (id: number) => {
 
 <template>
   <div class="px-6 py-8">
-    <h1 class="text-4xl font-bold mb-8">Products</h1>
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-4xl font-bold">Products</h1>
+      <router-link
+        to="/dashboard/product/add"
+        class="bg-blue-600 text-white text-sm px-5 py-2 rounded-lg hover:bg-blue-700 transition font-medium"
+      >
+        + Add Product
+      </router-link>
+    </div>
     <ProductFilter :categories="categories" @apply="onApplyFilter" @reset="onResetFilter" />
     <div v-if="isFetching">Loading...</div>
     <div v-else-if="error" class="text-red-500">Error: {{ error.message }}</div>

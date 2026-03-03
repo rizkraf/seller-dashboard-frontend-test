@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Product } from '@/types'
 import { ref } from 'vue'
-import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 
 const props = defineProps<{
   product: Product
@@ -37,10 +37,12 @@ const confirmDelete = () => {
             Edit
           </button>
 
-          <DeleteConfirmDialog
+          <ConfirmDialog
             v-model:open="open"
+            variant="danger"
             title="Delete Product"
             :description="`Are you sure you want to delete &quot;${product.title}&quot;? This action cannot be undone.`"
+            confirm-label="Delete"
             @confirm="confirmDelete"
           >
             <template #trigger>
@@ -50,7 +52,7 @@ const confirmDelete = () => {
                 Delete
               </button>
             </template>
-          </DeleteConfirmDialog>
+          </ConfirmDialog>
         </div>
       </div>
     </div>

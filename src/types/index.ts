@@ -23,3 +23,19 @@ export interface FilterValues {
   price_max: string
   categoryId: number | null
 }
+
+export interface ProductFormValues {
+  title: string
+  price: number | ''
+  description: string
+  categoryId: number | null
+  images: string[]
+}
+
+export interface ProductFormPayload {
+  title: string
+  price: number
+  description: string
+  categoryId: number
+  images?: string[]
+}
