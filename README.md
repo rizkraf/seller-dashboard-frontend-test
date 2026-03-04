@@ -53,14 +53,13 @@ src/
 ### Prerequisites
 
 - Node.js 18+
-- A running REST API (default: `http://localhost:3000`)
 
 ### Environment Variables
 
 Create a `.env` file in the project root:
 
 ```env
-VITE_API_BASE_URL=http://localhost:3000
+VITE_API_BASE_URL=https://api.escuelajs.co/api/v1
 ```
 
 ### Install Dependencies
