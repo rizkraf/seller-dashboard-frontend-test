@@ -31,11 +31,12 @@ const confirmDelete = () => {
       <div class="mt-4 flex items-center justify-between">
         <span class="text-xl font-bold text-gray-900">${{ product.price }}</span>
         <div class="flex gap-2">
-          <button
+          <router-link
+            :to="`/dashboard/product/${product.id}/edit`"
             class="bg-yellow-500 text-white text-sm px-3 py-1.5 rounded-lg hover:bg-yellow-600 transition"
           >
             Edit
-          </button>
+          </router-link>
 
           <ConfirmDialog
             v-model:open="open"
