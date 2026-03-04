@@ -1,48 +1,107 @@
-# seller-dashboard-frontend-test
+# Seller Dashboard — Frontend Test
 
-This template should help get you started developing with Vue 3 in Vite.
+A seller dashboard web application built as a test. It allows a seller to manage their products through a clean, responsive interface.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Authentication** — Login with email and password; session persisted via cookie
+- **Product List** — Browse products with pagination (5 per page)
+- **Filtering** — Filter products by title, price range, and category
+- **Add Product** — Create a new product with title, price, description, category, and image upload
+- **Edit Product** — Update an existing product's details
+- **Delete Product** — Remove a product with a confirmation dialog
+- **Image Upload** — Upload product images with per-file upload status indicators
+- **Confirm Dialog** — All destructive or submit actions require user confirmation
 
-## Recommended Browser Setup
+## Tech Stack
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+| Category      | Library                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| Framework     | [Vue 3](https://vuejs.org/) (Composition API + `<script setup>`) |
+| Language      | TypeScript                                                       |
+| Build Tool    | [Vite](https://vite.dev/)                                        |
+| Routing       | [Vue Router 4](https://router.vuejs.org/)                        |
+| Styling       | [Tailwind CSS v4](https://tailwindcss.com/)                      |
+| UI Primitives | [Reka UI](https://reka-ui.com/)                                  |
+| Icons         | [Iconify](https://iconify.design/)                               |
+| Utilities     | [VueUse](https://vueuse.org/)                                    |
 
-## Type Support for `.vue` Imports in TS
+## Project Structure
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```
+src/
+├── assets/         # Global styles
+├── components/     # Reusable UI components
+│   ├── ConfirmDialog.vue
+│   ├── ProductCard.vue
+│   ├── ProductFilter.vue
+│   ├── ProductForm.vue
+│   └── ProductPagination.vue
+├── router/         # Vue Router configuration
+├── types/          # TypeScript interfaces
+└── views/          # Page-level components
+    ├── LoginView.vue
+    ├── DashboardView.vue
+    ├── HomeView.vue
+    ├── ProductView.vue
+    ├── AddProductView.vue
+    └── EditProductView.vue
+```
 
-## Customize configuration
+## Getting Started
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Prerequisites
 
-## Project Setup
+- Node.js 18+
+- A running REST API (default: `http://localhost:3000`)
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+### Install Dependencies
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Run Development Server
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Build for Production
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Type Check
+
+```sh
+npm run type-check
+```
+
+### Lint & Format
 
 ```sh
 npm run lint
+npm run format
 ```
+
+## API Endpoints Used
+
+| Method | Endpoint        | Description                                     |
+| ------ | --------------- | ----------------------------------------------- |
+| POST   | `/auth/login`   | Authenticate user                               |
+| GET    | `/products`     | List products (supports filtering & pagination) |
+| POST   | `/products`     | Create a product                                |
+| PUT    | `/products/:id` | Update a product                                |
+| DELETE | `/products/:id` | Delete a product                                |
+| GET    | `/categories`   | List categories                                 |
+| POST   | `/files/upload` | Upload an image file                            |
