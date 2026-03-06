@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { useCookies } from '@vueuse/integrations/useCookies'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const loginForm = reactive({
   email: '',
@@ -11,8 +11,7 @@ const loginForm = reactive({
 const isLoading = ref(false)
 const error = ref<string | null>(null)
 
-const url = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
-const cookies = useCookies(['token'])
+const authStore = useAuthStore()
 const router = useRouter()
 
 const handleLogin = async () => {
@@ -21,20 +20,7 @@ const handleLogin = async () => {
   isLoading.value = true
 
   try {
-    const response = await fetch(`${url}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-
-    if (!response.ok) {
-      throw new Error('Invalid email or password.')
-    }
-
-    const data = await response.json()
-    cookies.set('token', data.access_token, { path: '/' })
+    await authStore.login(email, password)
     router.push('/dashboard')
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'An unexpected error occurred.'
